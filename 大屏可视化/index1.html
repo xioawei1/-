@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang='zh-Hans'>
+<head>
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<title>淘宝大数据可视化</title>
+<!--大屏-->
+<link type="text/css" href="css/public.css" rel="stylesheet">
+<link type="text/css" href="css/icon.css" rel="stylesheet">
+<link type="text/css" href="css/index.css" rel="stylesheet">
+<script type="text/javascript">
+        document.documentElement.style.fontSize = document.documentElement.clientWidth /768*100 + 'px';
+</script>
+
+<script src="js/echarts.min.js"></script>
+</head>
+<style>
+.abc{
+
+}
+
+</style>
+
+<body>
+<div class="bg">
+	<div class="title">淘宝用户行为可视化概览</div>
+    <div class="leftMain">
+    	<div class="leftMain_top">
+        	<div class="leftMain_topIn">
+            	<ul>
+                	<li>
+                        <div class="liIn">
+                            <h3>PV</h3>
+                            <p class="shu"><span class="shu1">68862</span><i> </i></p>
+                            <div class="zi"><span class="span1">点击量</span><span> </span></div>
+                            <span class="border_bg_leftTop"></span>
+                            <span class="border_bg_rightTop"></span>
+                            <span class="border_bg_leftBottom"></span>
+                            <span class="border_bg_rightBottom"></span>
+                        </div>
+                    </li>
+                	<li>
+                        <div class="liIn">
+                            <h3>UV</h3>
+                            <p class="shu"><span class="shu2">981</span><i> </i></p>
+                            <div class="zi"><span class="span1">独立IP数量</span><span> </span></div>
+                            <span class="border_bg_leftTop"></span>
+                            <span class="border_bg_rightTop"></span>
+                            <span class="border_bg_leftBottom"></span>
+                            <span class="border_bg_rightBottom"></span>
+                        </div>
+                    </li>
+                	<li>
+                        <div class="liIn">
+                            <h3>总收藏量</h3>
+                            <p class="shu"><span class="shu3">1307</span><i>次</i></p>
+                            <div class="zi"><span class="span1">期间总收藏数量</span><span> </span></div>
+                            <span class="border_bg_leftTop"></span>
+                            <span class="border_bg_rightTop"></span>
+                            <span class="border_bg_leftBottom"></span>
+                            <span class="border_bg_rightBottom"></span>
+                        </div>
+                    </li>
+                	<li>
+                        <div class="liIn">
+                            <h3>总购买量</h3>
+                            <p class="shu"><span class="shu4">684</span><i>次</i></p>
+                            <div class="zi"><span class="span1">期间总成交数量</span><span> </span></div>
+                            <span class="border_bg_leftTop"></span>
+                            <span class="border_bg_rightTop"></span>
+                            <span class="border_bg_leftBottom"></span>
+                            <span class="border_bg_rightBottom"></span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="leftMain_middle">
+        	<div class="leftMain_middle_left">
+            	<div class="leftMain_middle_leftIn">
+                	<h3>每时访问量透视图</h3>
+                    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+                    <div class="biaoge" style="width:100%; height:25vh" id="chartmain"></div>
+                    <script type="text/javascript">
+					//window.onload = function () {
+								//指定图表的配置项和数据
+								var dataAxis = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12','13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'];
+								var data = [1606, 850, 470, 320,521,911,1506,2006,2625,3144,3097,3170,3408,2418,3146,3354.3049,3197,4365,5415,6172,5924,4298];
+								var yMax = 500;
+								var dataShadow = [];
+
+								for (var i = 0; i < data.length; i++) {
+									dataShadow.push(yMax);
+								}
+
+								option = {
+									title: {
+										text: '',
+										subtext: ''
+									},
+									grid:{
+										x:40,
+										y:40,
+										x2:20,
+										y2:20,
+
+									},
+									xAxis: {
+										data: dataAxis,
+										axisLabel: {
+											/*inside: true,*/
+											interval:0,
+											textStyle: {
+												color: '#fff',
+												fontSize: 12
+
+											}
+										},
+										axisTick: {
+											show: false,
+										},
+										axisLine: {
+											show: true,
+											symbol:['none', 'arrow'],
+											symbolOffset: 12,
+											lineStyle:{
+												color: '#fff',
+											}
+										},
+										z: 10
+									},
+									yAxis: {
+										type: 'value',
+										name: '数量',
+										axisLine: {
+											show: true,
+											symbol: ['none', 'arrow'],
+											symbolOffset: 8,
+											lineStyle:{
+												color: '#fff',
+											}
+										},
+										axisTick: {
+											show: false
+										},
+										axisLabel: {
+											textStyle: {
+												color: '#fff',
+												fontSize: 8
+											}
+										}
+									},
+
+									dataZoom: [
+										{
+											type: 'inside'
+										}
+									],
+									series: [
+										{ // For shadow
+											type: 'bar',
+											itemStyle: {
+												color: 'rgba(0,0,0,0.05)'
+											},
+											barGap: '-100%',
+											barCategoryGap: '40%',
+											data: dataShadow,
+											animation: false
+										},
+										{
+											type: 'bar',
+											itemStyle: {
+												color: new echarts.graphic.LinearGradient(
+													0, 0, 0, 1,
+													[
+														{offset: 0, color: '#0efdff'},
+														{offset: 0.5, color: '#188df0'},
+														{offset: 1, color: '#188df0'}
+													]
+												)
+											},
+											emphasis: {
+												itemStyle: {
+													color: new echarts.graphic.LinearGradient(
+														0, 0, 0, 1,
+														[
+															{offset: 0, color: '#2378f7'},
+															{offset: 0.7, color: '#2378f7'},
+															{offset: 1, color: '#0efdff'}
+														]
+													)
+												}
+											},
+											data: data
+										}
+									]
+								};
+
+								// Enable data zoom when user click bar.
+								/*var zoomSize = 6;
+								myChart.on('click', function (params) {
+									console.log(dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)]);
+									myChart.dispatchAction({
+										type: 'dataZoom',
+										startValue: dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)],
+										endValue: dataAxis[Math.min(params.dataIndex + zoomSize / 2, data.length - 1)]
+									});
+								});*/
+
+								//获取dom容器
+								var myChart = echarts.init(document.getElementById('chartmain'));
+								// 使用刚指定的配置项和数据显示图表。
+								myChart.setOption(option);
+						//};
+					</script>
+                    <span class="border_bg_leftTop"></span>
+                    <span class="border_bg_rightTop"></span>
+                    <span class="border_bg_leftBottom"></span>
+                    <span class="border_bg_rightBottom"></span>
+                </div>
+            </div>
+        	<div class="leftMain_middle_right">
+            	<div class="leftMain_middle_rightIn">
+                	<h3>每日交易量</h3>
+                    <div class="biaoge biaoge_pai" style="width:100%; height:25vh">
+                    	<div class="biaoge_paiIn">
+                        	<ul>
+                            	<li>
+                                	<div class="liIn">
+                                    	<div class="liIn_left"><span class="bot"></span><span class="zi">12-10	</span></div>
+                                        <div class="liIn_line"><div class="line_lineIn" style="width:78.5%;"></div></div>
+                                        <p class="num">78.8%</p>
+                                    </div>
+                                </li>
+                             	<li>
+                                	<div class="liIn liIn2">
+                                    	<div class="liIn_left"><span class="bot"></span><span class="zi">12-11 </span></div>
+                                        <div class="liIn_line"><div class="line_lineIn" style="width:64.5%;"></div></div>
+                                        <p class="num">64.5%</p>
+                                    </div>
+                                </li>
+                            	<li>
+                                	<div class="liIn liIn3">
+                                    	<div class="liIn_left"><span class="bot"></span><span class="zi">12-12 </span></div>
+                                        <div class="liIn_line"><div class="line_lineIn" style="width:99.5%;"></div></div>
+                                        <p class="num">99.5%</p>
+                                    </div>
+                                </li>
+                            	<li>
+                                	<div class="liIn liIn4">
+                                    	<div class="liIn_left"><span class="bot"></span><span class="zi">12-13 </span></div>
+                                        <div class="liIn_line"><div class="line_lineIn" style="width:40.5%;"></div></div>
+                                        <p class="num">69.5%</p>
+                                    </div>
+                                </li>
+                            	<li>
+                                	<div class="liIn liIn5">
+                                    	<div class="liIn_left"><span class="bot"></span><span class="zi">12-14 </span></div>
+                                        <div class="liIn_line"><div class="line_lineIn" style="width:85.5%;"></div></div>
+                                        <p class="num">85.5%</p>
+                                    </div>
+                                </li>
+                            	<li>
+                                	<div class="liIn liIn6">
+                                    	<div class="liIn_left"><span class="bot"></span><span class="zi">12-15 </span></div>
+                                        <div class="liIn_line"><div class="line_lineIn" style="width:88%;"></div></div>
+                                        <p class="num">89.9%</p>
+                                    </div>
+                                </li>
+                           </ul>
+                        </div>
+                    </div>
+                    <span class="border_bg_leftTop"></span>
+                    <span class="border_bg_rightTop"></span>
+                    <span class="border_bg_leftBottom"></span>
+                    <span class="border_bg_rightBottom"></span>
+                </div>
+            </div>
+        </div>
+        <div class="leftMain_middle">
+        	<div class="leftMain_middle_left">
+            	<div class="leftMain_middle_leftIn">
+                	<h3>每日访问量可视化</h3>
+                    <div class="biaoge" style="width:100%; height:25vh" id="chartmain_zhe"></div>
+                    <script type="text/javascript">
+					//window.onload = function (){
+								//指定图表的配置项和数据
+
+					option = {
+						title: {
+							text: ''
+						},
+						tooltip: {
+							trigger: 'axis'
+						},
+						legend: {
+							textStyle: {
+								color: '#fff',
+								fontSize: 12,
+							},
+							right:'40%',
+							data: ['总访问量', '总成交量']
+						},
+						grid:{
+								x:40,
+								y:40,
+								x2:20,
+								y2:20,
+							},
+						toolbox: {
+							feature: {
+								//saveAsImage: {}
+							}
+						},
+						xAxis: {
+							type: 'category',
+							boundaryGap: false,
+							axisLabel: {
+											/*inside: true,*/
+											interval:0,
+											textStyle: {
+												color: '#fff',
+												fontSize: 8
+
+											}
+										},
+										axisTick: {
+											show: false,
+										},
+										axisLine: {
+											show: true,
+											symbol:['none', 'arrow'],
+											symbolOffset: 8,
+											lineStyle:{
+												color: '#fff',
+											}
+										},
+							data: ["01", "02", "03", "04", "05", "06", "07",
+          "08",
+          "09", "10", "11", "12", "13", "14", "15",
+          "16", "17","18"
+          ]
+						},
+						yAxis: {
+							type: 'value',
+
+							axisLine: {
+								show: true,
+								symbol: ['none', 'arrow'],
+								symbolOffset: 8,
+								lineStyle:{
+									color: '#fff',
+								}
+							},
+							axisTick: {
+								show: false
+							},
+							axisLabel: {
+								textStyle: {
+									color: '#fff',
+									fontSize: 8
+								}
+							}
+						},
+						series: [
+							{
+								name: '用户活跃度分析',
+								type: 'line',
+								stack: '总量',
+								data: [3663, 3704, 3655, 3510, 3425, 3514, 3811,3572,3382,3948,4455,6564,3808,3547,3814,3598,3535,3356]
+,
+								itemStyle: {
+									 normal: {
+									   color: "#0efdff",//折线点的颜色
+									   lineStyle: {
+									   color: "#0efdff",//折线的颜色
+									   width:2,
+									  }
+									},
+								}
+							},
+							//{
+							//	name: '总成交量',
+							//	type: 'line',
+							//	stack: '总量',
+								//data: [7535,7722,8538,8096,8468,8533,8049,9792,9974]
+							//},
+						]
+					};
+								//获取dom容器
+								var myChart = echarts.init(document.getElementById('chartmain_zhe'));
+								// 使用刚指定的配置项和数据显示图表。
+								myChart.setOption(option);
+						//};
+					</script>
+                    <span class="border_bg_leftTop"></span>
+                    <span class="border_bg_rightTop"></span>
+                    <span class="border_bg_leftBottom"></span>
+                    <span class="border_bg_rightBottom"></span>
+                </div>
+            </div>
+        	<div class="leftMain_middle_right">
+            	<div class="leftMain_middle_rightIn">
+                	<h3>用户整体行为可视化</h3>
+                    <div class="biaoge biaoge_bi" style="width:100%; height:25vh">
+                    	<ul>
+                        	<li>
+                            	<div class="liIn">
+                                	<p class="shu shu1">64975</p>
+                                    <p class="zi">点击行为</p>
+                                </div>
+                            </li>
+                        	<li>
+                            	<div class="liIn">
+                                	<p class="shu shu2">1895</p>
+                                    <p class="zi">加购车行为</p>
+                                </div>
+                            </li>
+                        	<li>
+                            	<div class="liIn">
+                                	<p class="shu shu3">373</p>
+                                    <p class="zi">独立IP购买量</p>
+                                </div>
+                            </li>
+                        	<li>
+                            	<div class="liIn">
+                                	<p class="shu shu4">0.2905</p>
+                                    <p class="zi">跳失率</p>
+                                </div>
+                            </li>
+                        	<li>
+                            	<div class="liIn">
+                                	<p class="shu shu5">0.1643</p>
+                                    <p class="zi">复购率</p>
+                                </div>
+                            </li>
+                        	<li>
+                            	<div class="liIn">
+                                	<p class="shu shu6">1.43</p>
+                                    <p class="zi">人均购买次数</p>
+                                </div>
+                            </li>
+                        </ul>
+
+                    </div>
+                    <span class="border_bg_leftTop"></span>
+                    <span class="border_bg_rightTop"></span>
+                    <span class="border_bg_leftBottom"></span>
+                    <span class="border_bg_rightBottom"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="rightMain">
+        <div class="rightMain_top">
+            <div class="rightMain_topIn">
+                <h3>用户行为统计</h3>
+                <div class="biaoge" style="width:100%; height:30vh" id="chartmain_bing"></div>
+                <script type="text/javascript">
+					option = {
+						title: {
+							text: '类型',
+							subtext: '',
+							left: 'right',
+							textStyle: {
+								color: '#fff',
+								fontSize: 11
+							}
+						},
+						tooltip: {
+							trigger: 'item',
+							formatter: '{a} <br/>{b} : {c} ({d}%)'
+						},
+						legend: {
+							// orient: 'vertical',
+							// top: 'middle',
+							type: 'scroll',
+							orient: 'vertical',
+							right: 10,
+							top: 15,
+							bottom: 20,
+							left: 'right',
+							data: ["点击行为","收藏行为","加购物车行为","购买行为"],
+							textStyle: {
+								color: '#fff',
+								fontSize: 11
+							}
+
+						},
+						grid:{
+							x:'-10%',
+							y:40,
+							x2:20,
+							y2:20,
+						},
+						color : [ '#09d0fb', '#f88cfb', '#95f8fe', '#f9f390',  '#ecfeb7' ],
+						series: [
+							{
+								type: 'pie',
+								radius: '65%',
+								center: ['50%', '50%'],
+								selectedMode: 'single',
+								data: [
+									{value: 64975, name: '点击行为'},
+									{value: 1307, name: '收藏行为'},
+									{value: 1895, name: '加购物车行为'},
+									{value: 684, name: '购买行为'}
+								],
+								emphasis: {
+									itemStyle: {
+										shadowBlur: 10,
+										shadowOffsetX: 0,
+										shadowColor: 'rgba(0, 0, 0, 0.5)'
+									}
+								}
+							}
+						]
+					};
+                //获取dom容器
+								var myChart = echarts.init(document.getElementById('chartmain_bing'));
+								// 使用刚指定的配置项和数据显示图表。
+								myChart.setOption(option);
+
+                </script>
+                <span class="border_bg_leftTop"></span>
+                <span class="border_bg_rightTop"></span>
+                <span class="border_bg_leftBottom"></span>
+                <span class="border_bg_rightBottom"></span>
+            </div>
+         </div>
+        <div class="rightMain_bottom">
+            <div class="rightMain_bottomIn">
+                <h3>不同行为Top10商品ID展示</h3>
+                <div class="biaoge biaoge_list" style="width:100%; height:36vh">
+                	<div class="biaoge_listIn">
+                    	<ul class="ul_title">
+                        	<li>热度排名</li>
+                            <li>点击</li>
+                            <li>收藏</li>
+                            <li>加购物车</li>
+                            <li>购买</li>
+                        </ul>
+                        <div class="ul_list">
+                        	<div class="ul_listIn">
+                                <ul class="ul_con">
+                                    <li>1</li>
+                                    <li>812879</li>
+                                    <li>812879</li>
+                                    <li>3031354</li>
+                                    <li>3122135</li>
+                                </ul>
+                                <ul class="ul_con">
+                                    <li>2</li>
+                                    <li>38445720</li>
+                                    <li>2279428</li>
+                                    <li>2333789</li>
+                                    <li>3031354</li>
+                                </ul>
+                                <ul class="ul_con">
+                                    <li>3</li>
+                                    <li>2032668</li>
+                                    <li>2818406</li>
+                                    <li>2560262</li>
+                                    <li>2964774</li>
+                                </ul>
+                                <ul class="ul_con">
+                                    <li>4</li>
+                                    <li>2331270</li>
+                                    <li>2364679</li>
+                                    <li>2818406</li>
+                                    <li>2560262</li>
+                                </ul>
+                                <ul class="ul_con">
+                                    <li>5</li>
+                                    <li>138964</li>
+                                    <li>2331370</li>
+                                    <li>812879</li>
+                                    <li>1910706</li>
+                                </ul>
+                                <ul class="ul_con">
+                                    <li>6</li>
+                                    <li>3031354</li>
+                                    <li>138964</li>
+                                    <li>1532945</li>
+                                    <li>1116492</li>
+                                </ul>
+                                 <ul class="ul_con">
+                                    <li>7</li>
+                                    <li>11539294</li>
+                                    <li>2032668</li>
+                                    <li>2453685</li>
+                                    <li>1042152</li>
+                                </ul>
+                                <ul class="ul_con">
+                                    <li>8</li>
+                                    <li>2338453</li>
+                                    <li>2887571</li>
+                                    <li>705557</li>
+                                    <li>257772</li>
+                                </ul>
+                                <ul class="ul_con">
+                                    <li>9</li>
+                                    <li>3371523</li>
+                                    <li>1783990</li>
+                                    <li>2279428</li>
+                                    <li>3189426</li>
+                                </ul>
+                                 <ul class="ul_con">
+                                    <li>10</li>
+                                    <li>4211339</li>
+                                    <li>3330337</li>
+                                    <li>138946</li>
+                                    <li>3964583</li>
+                                </ul>
+                            </div>
+                       </div>
+                   </div>
+
+                </div>
+                <span class="border_bg_leftTop"></span>
+                <span class="border_bg_rightTop"></span>
+                <span class="border_bg_leftBottom"></span>
+                <span class="border_bg_rightBottom"></span>
+            </div>
+         </div>
+    </div>
+    <div style="clear:both;"></div>
+</div>
+<!--大屏-->
+<!--数字增长累加动画-->
+<script src="js/jquery-1.11.0.min.js" type="text/javascript"></script>
+<script src="js/jquery.numscroll.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	$(".shu1").numScroll();
+	$(".shu2").numScroll();
+	$(".shu3").numScroll();
+	$(".shu4").numScroll();
+	$(".shu5").numScroll();
+	$(".shu6").numScroll();
+
+	/*$(".num2").numScroll({
+		time:5000
+	});*/
+</script>
+<!--大屏-->
+</body>
+</html>
